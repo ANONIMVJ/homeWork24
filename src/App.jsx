@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import MainLayout from './layout/MainLayout'
 import { Route, Routes } from 'react-router'
 
@@ -10,17 +10,19 @@ import Auth from './utils/Auth'
 function App() {
   return (
     <div>
-      <Routes>
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/dashboard' element={
-          <Auth>
-            <MainLayout />
-          </Auth>
-        }>
-          <Route path='statistics' element={<StatisticsPage />} />
-          <Route path='announcements' element={<AnnouncementsPage />} />
-        </Route>
-      </Routes>
+       <Suspense fallback={<h1>Page is loading</h1>}>
+        <Routes>
+          <Route index element={<LoginPage />} />
+          <Route path='/dashboard' element={
+            <Auth>
+              <MainLayout />
+            </Auth>
+          }>
+            <Route path='statistics' element={<StatisticsPage />} />
+            <Route path='announcements' element={<AnnouncementsPage />} />
+          </Route>
+        </Routes>
+       </Suspense>
     </div>
   )
 }
